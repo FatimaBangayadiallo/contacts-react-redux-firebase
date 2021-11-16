@@ -37,13 +37,21 @@ export const deleteContact = (id) => {
 // ------------------------------------------Edit a contact action----------------------------------
 
 export const editContact = (id, updetedContact) => {
-  return {
-    type: "EDIT_CONTACT",
-    payload: {
-      id,
-      updetedContact,
-    },
+  return (dispatch, state, { getFirestore }) => {
+    getFirestore()
+      .collection("contacts")
+      .doc(id)
+      .update(updetedContact)
+      .then(() => {});
   };
+
+  // return {
+  //   type: "EDIT_CONTACT",
+  //   payload: {
+  //     id,
+  //     updetedContact,
+  //   },
+  // };
 };
 // --------------------------------------------------get all users from the fireStore to the store------------
 // action to retrieve a user from fireStore to the store
