@@ -21,10 +21,18 @@ export const AddNewContact = (newContact) => {
 
 // ----------------------action to delelte a user------------------------
 export const deleteContact = (id) => {
-  return {
-    type: "DELETE_CONTACT",
-    payload: id,
+  return (dispatch, state, { getFirestore }) => {
+    getFirestore()
+      .collection("contacts")
+      .doc(id)
+      .delete()
+      .then(() => {});
   };
+
+  // return {
+  //   type: "DELETE_CONTACT",
+  //   payload: id,
+  // };
 };
 // ------------------------------------------Edit a contact action----------------------------------
 
@@ -47,7 +55,7 @@ export const getAllContacts = () => {
         (Snapshot) => {
           let contacts = [];
           Snapshot.forEach((doc) => {
-            contacts.push(doc.data());
+            contacts.push({ ...doc.data(), id: doc.id });
           });
           console.log(contacts);
           dispatch({ type: "SET_ALL_CONTACTS", payload: contacts });
