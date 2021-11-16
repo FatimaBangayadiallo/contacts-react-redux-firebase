@@ -9,7 +9,10 @@ export const AddNewContact = (newContact) => {
   return (dispatch, state, { getFirestore }) => {
     getFirestore()
       .collection("contacts")
-      .add(newContact)
+      .add({
+        ...newContact,
+        timestamp: getFirestore().FieldValue.serverTimestamp(),
+      })
       .then(() => {
         dispatch({
           type: "ADD_CONTACT",
